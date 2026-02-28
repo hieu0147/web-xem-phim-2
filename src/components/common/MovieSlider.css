@@ -1,0 +1,194 @@
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.movie-slider {
+    display: flex;
+    gap: 15px;
+    /* Adjust gap */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    /* Remove if drag feels weird with native smooth */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    padding-bottom: 20px;
+    /* Space for hover popup bottom */
+    padding-top: 50px;
+    /* Space for hover popup top */
+    margin-top: -50px;
+    /* Pull back to alignment */
+    cursor: grab;
+}
+
+.movie-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.movie-slider:active {
+    cursor: grabbing;
+}
+
+/* Calculate width for 6 items:
+   (100% - (5 * gap)) / 6
+   Gap is 15px.
+*/
+.slider-item {
+    flex: 0 0 calc((100% - 73px) / 5);
+    max-width: calc((100% - 73px) / 5);
+}
+
+/* Adjust MovieCard to fit container */
+/* Adjust MovieCard to fit container */
+.slider-item .movie-card.landscape {
+    width: 100% !important;
+    /* Force fluid width to fit slider item */
+    max-width: none !important;
+}
+
+.slider-item .movie-card.landscape .card-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+}
+
+.slider-item .movie-card.landscape img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: cover;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.2s;
+    color: #000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.slider-btn:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-btn.prev {
+    left: -20px;
+}
+
+.slider-btn.next {
+    right: -5px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1400px) {
+    .movie-slider {
+        gap: 14px;
+    }
+
+    .slider-item {
+        flex: 0 0 calc((100% - 56px) / 5);
+        max-width: calc((100% - 56px) / 5);
+    }
+
+    .slider-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .slider-btn.prev {
+        left: -16px;
+    }
+
+    .slider-btn.next {
+        right: -16px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .movie-slider {
+        gap: 12px;
+        padding-top: 40px;
+        margin-top: -40px;
+        padding-bottom: 16px;
+    }
+
+    .slider-item {
+        flex: 0 0 calc((100% - 36px) / 4);
+        max-width: calc((100% - 36px) / 4);
+    }
+
+    .slider-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .slider-btn.prev {
+        left: -16px;
+    }
+
+    .slider-btn.next {
+        right: -16px;
+    }
+}
+
+@media (max-width: 900px) {
+    .movie-slider {
+        gap: 10px;
+        padding-top: 36px;
+        margin-top: -36px;
+        padding-bottom: 14px;
+    }
+
+    .slider-item {
+        flex: 0 0 calc((100% - 20px) / 3);
+        max-width: calc((100% - 20px) / 3);
+    }
+
+    .slider-wrapper .slider-btn {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .movie-slider {
+        gap: 8px;
+        padding-top: 32px;
+        margin-top: -32px;
+        padding-bottom: 12px;
+    }
+
+    .slider-item {
+        flex: 0 0 calc((100% - 8px) / 2);
+        max-width: calc((100% - 8px) / 2);
+    }
+}
+
+@media (max-width: 400px) {
+    .movie-slider {
+        gap: 6px;
+        padding-top: 28px;
+        margin-top: -28px;
+        padding-bottom: 10px;
+    }
+
+    .slider-item {
+        flex: 0 0 calc((100% - 6px) / 2);
+        max-width: calc((100% - 6px) / 2);
+    }
+}

@@ -1,0 +1,408 @@
+.hero-container {
+    position: relative;
+    height: 91vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* z-index: -1; */
+}
+
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+/* Animation for BG change */
+.hero-background img.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #111 1%, rgba(17, 17, 17, 0.8) 20%, rgba(17, 17, 17, 0.2) 60%);
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    padding: 0 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 10;
+}
+
+.hero-left {
+    max-width: 600px;
+    color: #fff;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 15px;
+    color: #ffd875;
+    /* Gold color */
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.hero-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.meta-tag {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(4px);
+}
+
+.meta-tag.year,
+.meta-tag.ep,
+.meta-tag.lang {
+    background: transparent;
+    border: 1px solid white;
+    color: #fff;
+}
+
+.meta-tag.imdb {
+    background: #f5c518;
+    color: #000;
+    border: none;
+}
+
+.hero-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ddd;
+    margin-bottom: 30px;
+    max-width: 550px;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 3; */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-play-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgb(243, 209, 16);
+    /* Yellow play button */
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(245, 197, 24, 0.4);
+}
+
+.btn-play-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(245, 197, 24, 0.6);
+}
+
+.btn-icon-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    backdrop-filter: blur(5px);
+}
+
+.btn-icon-circle:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Right Side Thumbs */
+.hero-right {
+    display: flex;
+    align-items: flex-end;
+}
+
+.thumb-gallery {
+    display: flex;
+    gap: 10px;
+}
+
+.thumb-item {
+    width: 80px;
+    height: 50px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s, border-color 0.2s;
+}
+
+.thumb-item:hover,
+.thumb-item.active {
+    border-color: #f5c518;
+    opacity: 1;
+}
+
+.thumb-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+    .hero-container {
+        height: 55vh;
+    }
+
+    .hero-content {
+        bottom: 60px;
+        padding: 0 3%;
+    }
+
+    .hero-title {
+        font-size: 42px;
+    }
+
+    .hero-left {
+        max-width: 520px;
+    }
+
+    .hero-description {
+        max-width: 480px;
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+    .thumb-item {
+        width: 70px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-container {
+        height: 41vh;
+    }
+
+    .hero-content {
+        display: block;
+        bottom: 50px;
+        padding: 0 4%;
+    }
+
+    .thumb-item {
+        width: 26px;
+        height: 26px;
+        border-radius: 100%;
+    }
+
+    .hero-right {
+        justify-content: center;
+    }
+
+    .hero-left {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-title {
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .hero-meta {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .meta-tag {
+        font-size: 11px;
+        padding: 2px 6px;
+    }
+
+    /* Force hiding hero-description on screen <= 900px */
+    .hero-description {
+        display: none !important;
+    }
+
+    .hero-actions {
+        /* gap: 16px; */
+        display: none;
+    }
+
+    .btn-play-circle {
+        width: 56px;
+        height: 56px;
+    }
+
+    .btn-icon-circle {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-container {
+        height: 0vh;
+        min-height: 322px;
+    }
+
+    .hero-content {
+        bottom: 36px;
+        padding: 0 4%;
+    }
+
+    .hero-title {
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    .hero-meta {
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .meta-tag {
+        font-size: 10px;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+
+    /* .hero-description display:none đã được set ở 900px, nên không cần set lại ở đây để tránh style sau ghi đè mất !important */
+    /* .hero-description {
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+        -webkit-line-clamp: 2;
+    } */
+
+    .hero-actions {
+        gap: 12px;
+    }
+
+    .btn-play-circle {
+        width: 48px;
+        height: 48px;
+    }
+
+    .btn-play-circle:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-icon-circle {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero-container {
+        height: 0vh;
+        min-height: 220px;
+    }
+
+    .hero-content {
+        bottom: 28px;
+        padding: 0 3%;
+    }
+
+    .hero-title {
+        font-size: 19px;
+    }
+
+    .meta-tag {
+        font-size: 9px;
+    }
+
+    .hero-subtitle {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .hero-description {
+        font-size: 11px;
+        margin-bottom: 14px;
+    }
+
+    .btn-play-circle {
+        width: 44px;
+        height: 44px;
+    }
+
+    .btn-icon-circle {
+        width: 32px;
+        height: 32px;
+    }
+}

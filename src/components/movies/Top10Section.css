@@ -1,0 +1,257 @@
+/* Same structure as MovieSlider.css – poster cards (taller image) */
+
+.top-10-section {
+    padding: 24px 0 40px;
+    position: relative;
+    background: var(--bg-dark, #1a1a1a);
+}
+
+.top-10-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.02em;
+}
+
+.top-10-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.top-10-slider {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 20px;
+    padding-top: 50px;
+    margin-top: -50px;
+    cursor: grab;
+}
+
+.top-10-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.top-10-slider:active {
+    cursor: grabbing;
+}
+
+/* Item width: same formula as MovieSlider (6 items), poster is taller so card height comes from content */
+.top-10-item {
+    flex: 0 0 calc((100% - 75px) / 6);
+    max-width: calc((100% - 75px) / 6);
+}
+
+.top-10-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Poster: tall (2/3) – "hình phim dài hơn" */
+.top-10-poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #222;
+}
+
+.top-10-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.top-10-item:hover .top-10-poster img {
+    transform: scale(1.05);
+}
+
+.top-10-badge {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.top-10-badge.tm {
+    background-color: rgb(94, 96, 112);
+}
+
+.top-10-badge.pd {
+    background-color: rgb(44, 163, 93);
+}
+
+/* Info row: rank + title (like card-info below image) */
+.top-10-info {
+    display: flex;
+    align-items: center;
+    gap: 12%;
+    padding: 0 2px;
+}
+
+.rank-number {
+    flex-shrink: 0;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -8px;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    pointer-events: none;
+}
+
+.rank-1,
+.rank-2,
+.rank-3 {
+    color: #ffc107;
+    text-shadow: 0 2px 12px rgba(255, 193, 7, 0.5);
+}
+
+.rank-4,
+.rank-5,
+.rank-6,
+.rank-7,
+.rank-8,
+.rank-9,
+.rank-10 {
+    color: transparent;
+    -webkit-text-stroke: 2px #ffc107;
+}
+
+.top-10-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.top-10-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.25;
+}
+
+.top-10-original {
+    font-size: 12px;
+    color: #b3b3b3;
+    margin: 0 0 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top-10-episode {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Slider buttons – same as MovieSlider */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s;
+    color: #000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.slider-btn:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.top-10-wrapper .slider-btn.prev {
+    left: -20px;
+}
+
+.top-10-wrapper .slider-btn.next {
+    right: -20px;
+}
+
+/* Responsive – same breakpoints as MovieSlider */
+@media (max-width: 1400px) {
+    .top-10-item {
+        flex: 0 0 calc((100% - 60px) / 5);
+        max-width: calc((100% - 60px) / 5);
+    }
+}
+
+@media (max-width: 1200px) {
+    .top-10-item {
+        flex: 0 0 calc((100% - 45px) / 4);
+        max-width: calc((100% - 45px) / 4);
+    }
+}
+
+@media (max-width: 900px) {
+    .top-10-item {
+        flex: 0 0 calc((100% - 30px) / 3);
+        max-width: calc((100% - 30px) / 3);
+    }
+
+    .top-10-wrapper .slider-btn {
+        display: none;
+    }
+
+    .rank-number {
+        font-size: 36px;
+        letter-spacing: -6px;
+    }
+    .top-10-section {
+        padding: 24px 0 0px;
+    }
+    .top-10-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .top-10-item {
+        flex: 0 0 calc((100% - 15px) / 2);
+        max-width: calc((100% - 15px) / 2);
+    }
+
+    .rank-number {
+        font-size: 32px;
+    }
+
+    .rank-4,
+    .rank-5,
+    .rank-6,
+    .rank-7,
+    .rank-8,
+    .rank-9,
+    .rank-10 {
+        -webkit-text-stroke: 1.5px #ffc107;
+    }
+}

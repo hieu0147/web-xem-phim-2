@@ -1,0 +1,210 @@
+.movie-card.landscape {
+    width: 240px;
+    /* Fixed width for slider items */
+    flex-shrink: 0;
+}
+
+.movie-card.landscape .card-image {
+    aspect-ratio: 16/9;
+    /* Landscape ratio per screenshot */
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    position: relative;
+    background: #222;
+}
+
+.movie-card.landscape img {
+    max-width: 250.39px;
+    max-height: 140.22px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.movie-card.landscape:hover img {
+    transform: scale(1.05);
+}
+
+.card-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 11px;
+}
+
+.card-badge.tm {
+    background-color: rgb(94, 96, 112);
+}
+
+/* Greenish */
+.card-badge.pd {
+    background-color: rgb(44, 163, 93);
+}
+
+/* Bluish */
+
+.card-episode-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(229, 9, 20, 0.8);
+}
+
+.play-btn-mini {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.movie-card:hover .play-btn-mini {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+    .movie-card.landscape {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    .movie-card.landscape img {
+        max-width: 100%;
+        max-height: none;
+    }
+
+    .card-title {
+        font-size: 14px;
+    }
+
+    .card-subtitle {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 900px) {
+    .movie-card.landscape {
+        max-width: 200px;
+    }
+
+    .movie-card.landscape .card-image {
+        border-radius: 10px;
+        margin-bottom: 8px;
+    }
+
+    .card-badge {
+        padding: 2px 5px;
+        font-size: 10px;
+        bottom: 8px;
+        left: 8px;
+    }
+
+    .play-btn-mini {
+        width: 36px;
+        height: 36px;
+    }
+
+    .card-title {
+        font-size: 13px;
+    }
+
+    .card-subtitle {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 600px) {
+    .movie-card.landscape {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .movie-card.landscape .card-image {
+        border-radius: 8px;
+        margin-bottom: 6px;
+    }
+
+    .movie-card.landscape img {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .card-badge {
+        padding: 2px 4px;
+        font-size: 9px;
+        bottom: 6px;
+        left: 6px;
+        border-radius: 3px;
+    }
+
+    .play-btn-mini {
+        width: 32px;
+        height: 32px;
+    }
+
+    .card-title {
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .movie-card.landscape .card-image {
+        border-radius: 6px;
+    }
+
+    .card-title {
+        font-size: 11px;
+    }
+
+    .card-subtitle {
+        font-size: 10px;
+    }
+}

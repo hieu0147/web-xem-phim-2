@@ -1,0 +1,22 @@
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 30%;
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+.back-to-top:active {
+    transform: translateY(0);
+}
