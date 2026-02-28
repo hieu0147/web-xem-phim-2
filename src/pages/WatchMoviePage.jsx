@@ -89,15 +89,11 @@ const WatchMoviePage = () => {
     // Add global mouse event listeners for volume dragging
     useEffect(() => {
         const handleGlobalMouseMove = (e) => {
-            if (isVolumeDragging) {
-                handleVolumeMouseMove(e);
-            }
+            handleVolumeMouseMove(e);
         };
 
         const handleGlobalMouseUp = () => {
-            if (isVolumeDragging) {
-                handleVolumeMouseUp();
-            }
+            handleVolumeMouseUp();
         };
 
         if (isVolumeDragging) {
@@ -110,6 +106,37 @@ const WatchMoviePage = () => {
             document.removeEventListener('mouseup', handleGlobalMouseUp);
         };
     }, [isVolumeDragging]);
+
+    // Handle fullscreen change events
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            const isCurrentlyFullscreen = !!(
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            );
+            
+            setIsFullscreen(isCurrentlyFullscreen);
+            
+            // Unlock orientation if exiting fullscreen
+            if (!isCurrentlyFullscreen && screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+        };
+    }, []);
 
     const handlePlayVideo = () => {
         setIsPlaying(true);
@@ -207,9 +234,20 @@ const WatchMoviePage = () => {
             if (videoContainer.requestFullscreen) {
                 videoContainer.requestFullscreen();
             }
+            // Force landscape orientation on mobile
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {
+                    // Fallback for browsers that don't support orientation lock
+                    console.log('Orientation lock not supported');
+                });
+            }
         } else {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
+            }
+            // Unlock orientation when exiting fullscreen
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
             }
         }
         setIsFullscreen(!isFullscreen);
