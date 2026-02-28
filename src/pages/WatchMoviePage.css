@@ -675,6 +675,14 @@
 }
 
 @media (max-width: 600px) {
+    .watch-movie-page {
+        padding-top: 0;
+    }
+
+    .watch-header {
+        padding: 0;
+    }
+
     .watch-container {
         padding: 0 12px;
     }
@@ -692,13 +700,13 @@
     }
     
     .episode-header {
-        flex-direction: column;
+        /* flex-direction: column; */
         gap: 12px;
         align-items: flex-start;
     }
     
     .language-tabs {
-        width: 100%;
+        /* width: 100%; */
         justify-content: center;
     }
     
@@ -972,8 +980,13 @@
     }
     
     .play-pause-btn {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .skip-icon {
+        width: 18px;
+        height: 18px;
     }
     
     .volume-slider {
@@ -985,6 +998,23 @@
     }
     
     .skip-text {
+        display: none;
+    }
+    
+    /* Episodes grid for mobile */
+    .episodes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 6px;
+    }
+    
+    .episode-btn {
+        font-size: 11px;
+        padding: 8px 4px;
+        min-height: 40px;
+    }
+    
+    .movie-info,
+    .right-column {
         display: none;
     }
 }
@@ -1014,5 +1044,17 @@
     
     .time-display {
         font-size: 10px;
+    }
+    
+    /* Episodes grid for small mobile */
+    .episodes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 4px;
+    }
+    
+    .episode-btn {
+        /* font-size: 10px; */
+        padding: 6px 2px;
+        min-height: 36px;
     }
 }

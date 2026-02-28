@@ -434,25 +434,25 @@ const WatchMoviePage = () => {
                                         {/* Right Controls */}
                                         <div className="controls-right">
                                             <button className="control-btn skip-btn" onClick={skipBackward}>
-                                                <RotateCcw size={28} />
+                                                <RotateCcw className="skip-icon" size={28} />
                                                 <span className="skip-text">10</span>
                                             </button>
                                             
                                             <button className="control-btn skip-btn" onClick={skipForward}>
-                                                <RotateCw size={28} />
+                                                <RotateCw className="skip-icon" size={28} />
                                                 <span className="skip-text">10</span>
                                             </button>
                                             
                                             <button className="control-btn">
-                                                <SkipForward size={20} />
+                                                <SkipForward className="skip-icon" size={20} />
                                             </button>
                                             
                                             <button className="control-btn">
-                                                <Settings size={20} />
+                                                <Settings className="skip-icon" size={20} />
                                             </button>
                                             
                                             <button className="control-btn" onClick={toggleFullscreen}>
-                                                {isFullscreen ? <Maximize2 size={20} /> : <Maximize size={20} />}
+                                                {isFullscreen ? <Maximize2 className="skip-icon" size={20} /> : <Maximize className="skip-icon" size={20} />}
                                             </button>
                                         </div>
                                     </div>
