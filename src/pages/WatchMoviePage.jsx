@@ -268,7 +268,7 @@ const WatchMoviePage = () => {
                         {/* Episode Selection */}
                         <div className="episode-section">
                             <div className="episode-header">
-                                <h3>Phần 1</h3>
+                                {/* <h3>Phần 1</h3> */}
                                 <div className="language-tabs">
                                     {movieData.availableServers.map((serverName, index) => {
                                         const isVietsub = serverName.toLowerCase().includes('vietsub');

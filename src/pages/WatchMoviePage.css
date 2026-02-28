@@ -30,7 +30,7 @@
 }
 
 .back-btn:hover {
-    color: var(--primary-color);
+    color: #f5c518;
 }
 
 /* Loading State */
@@ -258,7 +258,7 @@
 
 .movie-meta {
     display: flex;
-    gap: 12px;
+    gap: 4px;
     margin-bottom: 12px;
     flex-wrap: wrap;
 }
@@ -274,8 +274,8 @@
 }
 
 .quality {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: #f5c518;
+    color: #000;
 }
 
 .language {
@@ -299,14 +299,10 @@
 }
 
 .more-info-link {
-    color: var(--primary-color);
+    color: #f5c518;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
-}
-
-.more-info-link:hover {
-    color: #f40612;
 }
 
 /* Episode Section */
@@ -355,9 +351,10 @@
 }
 
 .lang-tab.active {
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
     color: white;
-    border-color: var(--primary-color);
+    border-color: white;
+    border-radius: 10px;
 }
 
 .lang-tab:disabled {
@@ -409,9 +406,9 @@
 }
 
 .episode-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: #f5c518;
+    color: #000;
+    /* border-color: var(--primary-color); */
 }
 
 /* Comment Section */
@@ -510,8 +507,8 @@
 }
 
 .submit-btn {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: #f5c518;
+    color: #000;
     border: none;
     padding: 8px 20px;
     border-radius: 20px;
