@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, RotateCcw, RotateCw, SkipForward, Settings, Maximize, Maximize2 } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { fetchFilmDetail } from '../services/api';
@@ -20,6 +20,18 @@ const WatchMoviePage = () => {
     const [comment, setComment] = useState('');
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    
+    // Video controls states
+    const [isPaused, setIsPaused] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [volume, setVolume] = useState(1);
+    const [isMuted, setIsMuted] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [showControls, setShowControls] = useState(true);
+    const [isDragging, setIsDragging] = useState(false);
+    const [isVolumeDragging, setIsVolumeDragging] = useState(false);
+    const videoRef = React.createRef();
 
     useEffect(() => {
         const loadMovie = async () => {
@@ -74,8 +86,162 @@ const WatchMoviePage = () => {
         }
     }, [movieSlug]);
 
+    // Add global mouse event listeners for volume dragging
+    useEffect(() => {
+        const handleGlobalMouseMove = (e) => {
+            if (isVolumeDragging) {
+                handleVolumeMouseMove(e);
+            }
+        };
+
+        const handleGlobalMouseUp = () => {
+            if (isVolumeDragging) {
+                handleVolumeMouseUp();
+            }
+        };
+
+        if (isVolumeDragging) {
+            document.addEventListener('mousemove', handleGlobalMouseMove);
+            document.addEventListener('mouseup', handleGlobalMouseUp);
+        }
+
+        return () => {
+            document.removeEventListener('mousemove', handleGlobalMouseMove);
+            document.removeEventListener('mouseup', handleGlobalMouseUp);
+        };
+    }, [isVolumeDragging]);
+
     const handlePlayVideo = () => {
         setIsPlaying(true);
+        setIsPaused(false);
+    };
+
+    // Video control functions
+    const togglePlayPause = () => {
+        if (videoRef.current) {
+            if (isPaused) {
+                videoRef.current.play();
+                setIsPaused(false);
+            } else {
+                videoRef.current.pause();
+                setIsPaused(true);
+            }
+        }
+    };
+
+    const handleTimeUpdate = () => {
+        if (videoRef.current) {
+            setCurrentTime(videoRef.current.currentTime);
+        }
+    };
+
+    const handleLoadedMetadata = () => {
+        if (videoRef.current) {
+            setDuration(videoRef.current.duration);
+        }
+    };
+
+    const handleSeek = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        if (videoRef.current) {
+            videoRef.current.currentTime = percent * duration;
+            setCurrentTime(percent * duration);
+        }
+    };
+
+    const handleVolumeChange = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        const newVolume = Math.max(0, Math.min(1, percent));
+        setVolume(newVolume);
+        setIsMuted(newVolume === 0);
+        if (videoRef.current) {
+            videoRef.current.volume = newVolume;
+        }
+    };
+
+    const handleVolumeMouseDown = (e) => {
+        e.preventDefault();
+        setIsVolumeDragging(true);
+        handleVolumeChange(e);
+    };
+
+    const handleVolumeMouseMove = (e) => {
+        if (isVolumeDragging) {
+            handleVolumeChange(e);
+        }
+    };
+
+    const handleVolumeMouseUp = () => {
+        setIsVolumeDragging(false);
+    };
+
+    const toggleMute = () => {
+        if (videoRef.current) {
+            if (isMuted) {
+                videoRef.current.volume = volume;
+                setIsMuted(false);
+            } else {
+                videoRef.current.volume = 0;
+                setIsMuted(true);
+            }
+        }
+    };
+
+    const skipBackward = () => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = Math.max(0, currentTime - 10);
+        }
+    };
+
+    const skipForward = () => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = Math.min(duration, currentTime + 10);
+        }
+    };
+
+    const toggleFullscreen = () => {
+        const videoContainer = document.querySelector('.video-player');
+        if (!isFullscreen) {
+            if (videoContainer.requestFullscreen) {
+                videoContainer.requestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+        setIsFullscreen(!isFullscreen);
+    };
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const handleMouseMove = () => {
+        setShowControls(true);
+        clearTimeout(window.controlsTimeout);
+        window.controlsTimeout = setTimeout(() => {
+            if (!isPaused) {
+                setShowControls(false);
+            }
+        }, 3000);
+    };
+
+    const handleControlsMouseEnter = () => {
+        clearTimeout(window.controlsTimeout);
+        setShowControls(true);
+    };
+
+    const handleControlsMouseLeave = () => {
+        if (!isPaused) {
+            window.controlsTimeout = setTimeout(() => {
+                setShowControls(false);
+            }, 1000);
+        }
     };
 
     const handleLanguageChange = (language, serverIndex) => {
@@ -197,25 +363,101 @@ const WatchMoviePage = () => {
 
                 {/* Video Player Section */}
                 <div className="video-section">
-                    <div className="video-player">
+                    <div className="video-player" onMouseMove={handleMouseMove}>
                         {isPlaying && movieData.episodes.length > 0 ? (
-                            <video
-                                key={`${selectedServer}-${selectedEpisode}`}
-                                controls
-                                autoPlay
-                                className="video-element"
-                                poster={`https://img.ophim.live/uploads/movies/${movieData.poster_url}`}
-                            >
-                                <source 
-                                    src={movieData.episodes[selectedEpisode - 1]?.link_m3u8} 
-                                    type="application/x-mpegURL"
-                                />
-                                <source 
-                                    src={movieData.episodes[selectedEpisode - 1]?.link_embed} 
-                                    type="video/mp4"
-                                />
-                                Your browser does not support video tag.
-                            </video>
+                            <>
+                                <video
+                                    ref={videoRef}
+                                    key={`${selectedServer}-${selectedEpisode}`}
+                                    autoPlay
+                                    className="video-element"
+                                    poster={`https://img.ophim.live/uploads/movies/${movieData.poster_url}`}
+                                    onTimeUpdate={handleTimeUpdate}
+                                    onLoadedMetadata={handleLoadedMetadata}
+                                    onClick={togglePlayPause}
+                                >
+                                    <source 
+                                        src={movieData.episodes[selectedEpisode - 1]?.link_m3u8} 
+                                        type="application/x-mpegURL"
+                                    />
+                                    <source 
+                                        src={movieData.episodes[selectedEpisode - 1]?.link_embed} 
+                                        type="video/mp4"
+                                    />
+                                    Your browser does not support video tag.
+                                </video>
+                                
+                                {/* Custom Video Controls Overlay */}
+                                <div 
+                                    className={`video-controls ${showControls ? 'visible' : 'hidden'}`}
+                                    onMouseEnter={handleControlsMouseEnter}
+                                    onMouseLeave={handleControlsMouseLeave}
+                                >
+                                    {/* Progress Bar */}
+                                    <div className="progress-bar" onClick={handleSeek}>
+                                        <div className="progress-buffer"></div>
+                                        <div 
+                                            className="progress-played" 
+                                            style={{ width: `${(currentTime / duration) * 100}%` }}
+                                        ></div>
+                                    </div>
+                                    
+                                    {/* Controls Container */}
+                                    <div className="controls-container">
+                                        {/* Left Controls */}
+                                        <div className="controls-left">
+                                            <button className="control-btn play-pause-btn" onClick={togglePlayPause}>
+                                                {isPaused ? <Play size={20} fill="currentColor" /> : <Pause size={20} />}
+                                            </button>
+                                            
+                                            <div className="volume-control">
+                                                <button className="control-btn volume-btn" onClick={toggleMute}>
+                                                    {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                                                </button>
+                                                <div 
+                                                    className="volume-slider" 
+                                                    onMouseDown={handleVolumeMouseDown}
+                                                    onClick={handleVolumeChange}
+                                                >
+                                                    <div 
+                                                        className="volume-level" 
+                                                        style={{ width: `${isMuted ? 0 : volume * 100}%` }}
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <span className="time-display">
+                                                {formatTime(currentTime)} / {formatTime(duration)}
+                                            </span>
+                                        </div>
+                                        
+                                        {/* Right Controls */}
+                                        <div className="controls-right">
+                                            <button className="control-btn skip-btn" onClick={skipBackward}>
+                                                <RotateCcw size={28} />
+                                                <span className="skip-text">10</span>
+                                            </button>
+                                            
+                                            <button className="control-btn skip-btn" onClick={skipForward}>
+                                                <RotateCw size={28} />
+                                                <span className="skip-text">10</span>
+                                            </button>
+                                            
+                                            <button className="control-btn">
+                                                <SkipForward size={20} />
+                                            </button>
+                                            
+                                            <button className="control-btn">
+                                                <Settings size={20} />
+                                            </button>
+                                            
+                                            <button className="control-btn" onClick={toggleFullscreen}>
+                                                {isFullscreen ? <Maximize2 size={20} /> : <Maximize size={20} />}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
                         ) : (
                             <div className="video-placeholder" onClick={handlePlayVideo}>
                                 <img 
