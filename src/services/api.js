@@ -14,7 +14,7 @@ export const searchFilms = async (keyword, page = 1) => {
         
         // Handle 304 Not Modified
         if (response.status === 304) {
-            console.log('Search data not modified, using cached version');
+            // console.log('Search data not modified, using cached version');
             const cacheKey = `search_${keyword}_page_${page}`;
             const cachedData = localStorage.getItem(cacheKey);
             if (cachedData) {
@@ -32,7 +32,7 @@ export const searchFilms = async (keyword, page = 1) => {
         }
         return [];
     } catch (error) {
-        console.error('Error searching films:', error);
+        // console.error('Error searching films:', error);
         // Fallback to cached data on error
         try {
             const cacheKey = `search_${keyword}_page_${page}`;
@@ -41,7 +41,7 @@ export const searchFilms = async (keyword, page = 1) => {
                 return JSON.parse(cachedData);
             }
         } catch (cacheError) {
-            console.error('Error reading cached search data:', cacheError);
+            // console.error('Error reading cached search data:', cacheError);
         }
         return [];
     }
@@ -60,7 +60,7 @@ export const fetchMoviesByGenre = async (genreSlug, page = 1) => {
         
         // Handle 304 Not Modified
         if (response.status === 304) {
-            console.log('Genre data not modified, using cached version');
+            // console.log('Genre data not modified, using cached version');
             const cacheKey = `genre_${genreSlug}_page_${page}`;
             const cachedData = localStorage.getItem(cacheKey);
             if (cachedData) {
@@ -78,7 +78,7 @@ export const fetchMoviesByGenre = async (genreSlug, page = 1) => {
         }
         return [];
     } catch (error) {
-        console.error(`Error fetching genre ${genreSlug}:`, error);
+        // console.error(`Error fetching genre ${genreSlug}:`, error);
         // Fallback to cached data on error
         try {
             const cacheKey = `genre_${genreSlug}_page_${page}`;
@@ -87,7 +87,7 @@ export const fetchMoviesByGenre = async (genreSlug, page = 1) => {
                 return JSON.parse(cachedData);
             }
         } catch (cacheError) {
-            console.error('Error reading cached genre data:', cacheError);
+            // console.error('Error reading cached genre data:', cacheError);
         }
         return [];
     }
@@ -128,7 +128,7 @@ export const fetchCountries = async () => {
         }
         return [];
     } catch (error) {
-        console.error('Error fetching countries:', error);
+        // console.error('Error fetching countries:', error);
         return [];
     }
 };
@@ -146,7 +146,7 @@ export const fetchMoviesByCountry = async (countrySlug, page = 1) => {
         
         // Handle 304 Not Modified
         if (response.status === 304) {
-            console.log('Country data not modified, using cached version');
+            // console.log('Country data not modified, using cached version');
             const cacheKey = `country_${countrySlug}_page_${page}`;
             const cachedData = localStorage.getItem(cacheKey);
             if (cachedData) {
@@ -169,7 +169,7 @@ export const fetchMoviesByCountry = async (countrySlug, page = 1) => {
         }
         return [];
     } catch (error) {
-        console.error(`Error fetching movies for ${countrySlug}:`, error);
+        // console.error(`Error fetching movies for ${countrySlug}:`, error);
         // Fallback to cached data on error
         try {
             const cacheKey = `country_${countrySlug}_page_${page}`;
@@ -178,7 +178,7 @@ export const fetchMoviesByCountry = async (countrySlug, page = 1) => {
                 return JSON.parse(cachedData);
             }
         } catch (cacheError) {
-            console.error('Error reading cached country data:', cacheError);
+            // console.error('Error reading cached country data:', cacheError);
         }
         return [];
     }
@@ -211,7 +211,7 @@ export const fetchVietnameseMovies = (page) => fetchMoviesByCountry('viet-nam', 
 /* ----- Thông tin phim & danh sách tập phim ----- */
 export const fetchFilmDetail = async (slug) => {
     try {
-        console.log('Fetching film detail for slug:', slug);
+        // console.log('Fetching film detail for slug:', slug);
         const response = await fetch(`${API_FILM}/${slug}`, {
             method: 'GET',
             headers: {
@@ -220,11 +220,11 @@ export const fetchFilmDetail = async (slug) => {
             }
         });
         
-        console.log('API response status:', response.status);
+        // console.log('API response status:', response.status);
         
         // Handle 304 Not Modified
         if (response.status === 304) {
-            console.log('Data not modified, using cached version');
+            // console.log('Data not modified, using cached version');
             // Try to get from localStorage or return cached data
             const cachedData = localStorage.getItem(`film_${slug}`);
             if (cachedData) {
@@ -233,29 +233,29 @@ export const fetchFilmDetail = async (slug) => {
         }
         
         const data = await response.json();
-        console.log('API response data:', data);
+        // console.log('API response data:', data);
         
         // Cache response
         if (data.status === 'success') {
             const movieData = data.data?.item || data.item || data.data || data;
-            console.log('Extracted movieData:', movieData);
+            // console.log('Extracted movieData:', movieData);
             localStorage.setItem(`film_${slug}`, JSON.stringify(movieData));
             return movieData;
         }
         
-        console.error('API returned non-success status:', data);
+        // console.error('API returned non-success status:', data);
         return null;
     } catch (error) {
-        console.error(`Error fetching film ${slug}:`, error);
+        // console.error(`Error fetching film ${slug}:`, error);
         // Fallback to cached data on error
         try {
             const cachedData = localStorage.getItem(`film_${slug}`);
             if (cachedData) {
-                console.log('Using cached data as fallback');
+                // console.log('Using cached data as fallback');
                 return JSON.parse(cachedData);
             }
         } catch (cacheError) {
-            console.error('Error reading cached data:', cacheError);
+            // console.error('Error reading cached data:', cacheError);
         }
         return null;
     }
@@ -274,7 +274,7 @@ export const fetchMoviesByCategory = async (categorySlug, page = 1) => {
         
         // Handle 304 Not Modified
         if (response.status === 304) {
-            console.log('Category data not modified, using cached version');
+            // console.log('Category data not modified, using cached version');
             const cacheKey = `category_${categorySlug}_page_${page}`;
             const cachedData = localStorage.getItem(cacheKey);
             if (cachedData) {
@@ -292,7 +292,7 @@ export const fetchMoviesByCategory = async (categorySlug, page = 1) => {
         }
         return [];
     } catch (error) {
-        console.error(`Error fetching category ${categorySlug}:`, error);
+        // console.error(`Error fetching category ${categorySlug}:`, error);
         // Fallback to cached data on error
         try {
             const cacheKey = `category_${categorySlug}_page_${page}`;
@@ -301,7 +301,7 @@ export const fetchMoviesByCategory = async (categorySlug, page = 1) => {
                 return JSON.parse(cachedData);
             }
         } catch (cacheError) {
-            console.error('Error reading cached category data:', cacheError);
+            // console.error('Error reading cached category data:', cacheError);
         }
         return [];
     }

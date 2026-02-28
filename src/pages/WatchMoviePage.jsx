@@ -36,9 +36,9 @@ const WatchMoviePage = () => {
     useEffect(() => {
         const loadMovie = async () => {
             try {
-                console.log('Loading movie with slug:', movieSlug);
+                // console.log('Loading movie with slug:', movieSlug);
                 const data = await fetchFilmDetail(movieSlug);
-                console.log('API response:', data);
+                // console.log('API response:', data);
                 
                 if (data) {
                     setMovie(data);
@@ -67,10 +67,10 @@ const WatchMoviePage = () => {
                         }
                     }
                 } else {
-                    console.error('No movie data received');
+                    // console.error('No movie data received');
                 }
             } catch (error) {
-                console.error('Error loading movie:', error);
+                // console.error('Error loading movie:', error);
             } finally {
                 setLoading(false);
             }
@@ -81,7 +81,7 @@ const WatchMoviePage = () => {
             // Scroll to top immediately when entering watch page
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            console.error('No movie slug provided');
+            // console.error('No movie slug provided');
             setLoading(false);
         }
     }, [movieSlug]);
@@ -238,7 +238,7 @@ const WatchMoviePage = () => {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(() => {
                     // Fallback for browsers that don't support orientation lock
-                    console.log('Orientation lock not supported');
+                    // console.log('Orientation lock not supported');
                 });
             }
         } else {
@@ -275,16 +275,31 @@ const WatchMoviePage = () => {
     };
 
     const handleControlsMouseLeave = () => {
-        if (!isPaused) {
-            window.controlsTimeout = setTimeout(() => {
+        clearTimeout(window.controlsTimeout);
+        window.controlsTimeout = setTimeout(() => {
+            if (!isPaused) {
                 setShowControls(false);
-            }, 1000);
+            }
+        }, 1000);
+    };
+
+    const handleVideoClick = () => {
+        // Just show/hide controls, don't toggle play/pause
+        if (showControls) {
+            setShowControls(false);
+        } else {
+            setShowControls(true);
+            clearTimeout(window.controlsTimeout);
+            window.controlsTimeout = setTimeout(() => {
+                if (!isPaused) {
+                    setShowControls(false);
+                }
+            }, 3000);
         }
     };
 
-    const handleLanguageChange = (language, serverIndex) => {
+    const handleLanguageChange = (language) => {
         setSelectedLanguage(language);
-        setSelectedServer(serverIndex);
         setSelectedEpisode(1); // Reset to first episode when changing language
         setIsPlaying(false); // Stop playing when changing language
         
@@ -317,7 +332,7 @@ const WatchMoviePage = () => {
     const handleCommentSubmit = (e) => {
         e.preventDefault();
         // Handle comment submission
-        console.log('Comment submitted:', comment);
+        // console.log('Comment submitted:', comment);
         setComment('');
     };
 
@@ -383,8 +398,8 @@ const WatchMoviePage = () => {
     };
 
     // Debug logging
-    console.log('Processed movieData:', movieData);
-    console.log('Selected server:', selectedServer, 'Language:', selectedLanguage);
+    // console.log('Processed movieData:', movieData);
+    // console.log('Selected server:', selectedServer, 'Language:', selectedLanguage);
 
     return (
         <div className="watch-movie-page">
@@ -412,7 +427,7 @@ const WatchMoviePage = () => {
                                     poster={`https://img.ophim.live/uploads/movies/${movieData.poster_url}`}
                                     onTimeUpdate={handleTimeUpdate}
                                     onLoadedMetadata={handleLoadedMetadata}
-                                    onClick={togglePlayPause}
+                                    onClick={handleVideoClick}
                                 >
                                     <source 
                                         src={movieData.episodes[selectedEpisode - 1]?.link_m3u8} 

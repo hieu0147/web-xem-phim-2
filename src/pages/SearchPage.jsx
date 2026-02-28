@@ -34,7 +34,7 @@ const SearchPage = () => {
             }
             setHasMore(movies.length > 0);
         } catch (error) {
-            console.error('Search error:', error);
+            // console.error('Search error:', error);
             setResults([]);
         } finally {
             setLoading(false);

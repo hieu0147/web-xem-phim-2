@@ -89,7 +89,7 @@ const AllMoviesPage = () => {
             }
             setHasMore(newMovies.length > 0);
         } catch (error) {
-            console.error('Error loading movies:', error);
+            // console.error('Error loading movies:', error);
             setMovies([]);
             setHasMore(false);
         } finally {
