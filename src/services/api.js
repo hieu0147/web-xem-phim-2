@@ -264,7 +264,7 @@ export const fetchFilmDetail = async (slug) => {
 /* ----- Phim theo danh mục (TV shows, Phim lẻ, Phim bộ, Phim đang chiếu) ----- */
 export const fetchMoviesByCategory = async (categorySlug, page = 1) => {
     try {
-        const response = await fetch(`${API_BASE}/${categorySlug}?page=${page}&sort_field=year&sort_type=desc`, {
+        const response = await fetch(`${API_BASE}/${categorySlug}?sort_field=modified.time&sort_type=desc&page=${page}`, {
             method: 'GET',
             headers: {
                 'Cache-Control': 'no-cache',
