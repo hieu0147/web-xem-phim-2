@@ -94,6 +94,23 @@
     object-fit: cover;
 }
 
+/* Video element fullscreen styles */
+.video-player:fullscreen .video-element {
+    object-fit: contain;
+}
+
+.video-player:-webkit-full-screen .video-element {
+    object-fit: contain;
+}
+
+.video-player:-moz-full-screen .video-element {
+    object-fit: contain;
+}
+
+.video-player:-ms-fullscreen .video-element {
+    object-fit: contain;
+}
+
 .video-placeholder {
     display: flex;
     flex-direction: column;
