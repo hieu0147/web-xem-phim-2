@@ -136,7 +136,7 @@ export const fetchCountries = async () => {
 /* ----- Phim theo quốc gia ----- */
 export const fetchMoviesByCountry = async (countrySlug, page = 1) => {
     try {
-        const response = await fetch(`https://ophim1.com/v1/api/quoc-gia/${countrySlug}?page=${page}&sort_field=year&sort_type=desc`, {
+        const response = await fetch(`https://ophim1.com/v1/api/quoc-gia/${countrySlug}?sort_field=modified.time&sort_type=desc&page=${page}`, {
             method: 'GET',
             headers: {
                 'Cache-Control': 'no-cache',
