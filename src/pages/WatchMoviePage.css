@@ -88,44 +88,10 @@
     overflow: hidden;
 }
 
-/* Fullscreen styles for mobile */
-.video-player:fullscreen {
-    border-radius: 0;
-}
-
-.video-player:-webkit-full-screen {
-    border-radius: 0;
-}
-
-.video-player:-moz-full-screen {
-    border-radius: 0;
-}
-
-.video-player:-ms-fullscreen {
-    border-radius: 0;
-}
-
 .video-element {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-/* Video element fullscreen styles */
-.video-player:fullscreen .video-element {
-    object-fit: contain;
-}
-
-.video-player:-webkit-full-screen .video-element {
-    object-fit: contain;
-}
-
-.video-player:-moz-full-screen .video-element {
-    object-fit: contain;
-}
-
-.video-player:-ms-fullscreen .video-element {
-    object-fit: contain;
 }
 
 .video-placeholder {
