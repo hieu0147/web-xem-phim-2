@@ -23,7 +23,7 @@ const Footer = () => {
 
                         <div className="sl-brand line-center">
                             <a className="footer-logo" href="/" style={{ textDecoration: 'none', fontWeight: 'bold', fontSize: '35px' }}>
-                                <span style={{ color: 'yellow' }}>Thùng</span>
+                                <span style={{ color: 'yellow' }}>Thau</span>
                                 <span style={{ color: 'white' }}>Phim</span>
                             </a>
                         </div>
@@ -37,12 +37,12 @@ const Footer = () => {
                         </div>
 
                         <div className="sl-notice mb-2">
-                            ThùngPhim - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD.
+                            ThauPhim - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD.
                             Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ… đa dạng thể loại.
                         </div>
 
                         <div className="sl-copyright">
-                            © 2025 ThùngPhim
+                            © 2025 ThauPhim
                         </div>
                     </div>
                 </div>

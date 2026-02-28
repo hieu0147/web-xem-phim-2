@@ -40,7 +40,7 @@ const Header = () => {
                 {/* Logo */}
                 <a id="logo" title="ThungPhim" href="/">
                     <span style={{ fontWeight: 'bold', fontSize: '24px' }}>
-                        <span style={{ color: 'yellow' }}>Thùng</span>
+                        <span style={{ color: 'yellow' }}>Thau</span>
                         <span style={{ color: 'white' }}>Phim</span>
                     </span>
                 </a>
