@@ -107,6 +107,45 @@ const WatchMoviePage = () => {
         };
     }, [isVolumeDragging]);
 
+    // Keyboard shortcuts
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // Ignore if user is typing in an input/textarea
+            const tag = e.target.tagName.toLowerCase();
+            if (tag === 'input' || tag === 'textarea') return;
+
+            switch (e.key) {
+                case ' ':
+                case 'Spacebar':
+                    e.preventDefault();
+                    if (isPlaying) {
+                        togglePlayPause();
+                    }
+                    break;
+                case 'f':
+                case 'F':
+                    e.preventDefault();
+                    toggleFullscreen();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    if (isPlaying) skipForward();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    if (isPlaying) skipBackward();
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isPlaying, isPaused, currentTime, duration, isFullscreen]);
+
     // Handle fullscreen change events
     useEffect(() => {
         const handleFullscreenChange = () => {
