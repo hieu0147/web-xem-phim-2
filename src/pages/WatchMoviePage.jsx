@@ -29,6 +29,8 @@ const WatchMoviePage = () => {
     const [isMuted, setIsMuted] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(true);
+    const [showResumeModal, setShowResumeModal] = useState(false);
+    const [savedTime, setSavedTime] = useState(0);
     const videoRef = React.useRef(null);
 
     useEffect(() => {
@@ -155,6 +157,33 @@ const WatchMoviePage = () => {
     }, []);
 
     const handlePlayVideo = () => {
+        // Check if there's a saved position
+        const storageKey = `watch_progress_${movieSlug}_${selectedServer}_${selectedEpisode}`;
+        const saved = parseFloat(localStorage.getItem(storageKey) || '0');
+        if (saved > 5) {
+            setSavedTime(saved);
+            setShowResumeModal(true);
+        } else {
+            setIsPlaying(true);
+            setIsPaused(false);
+        }
+    };
+
+    const handleResumeWatch = () => {
+        setShowResumeModal(false);
+        setIsPlaying(true);
+        setIsPaused(false);
+        // Seek to saved position after video loads
+        setTimeout(() => {
+            if (videoRef.current) {
+                videoRef.current.currentTime = savedTime;
+                setCurrentTime(savedTime);
+            }
+        }, 500);
+    };
+
+    const handleRestartWatch = () => {
+        setShowResumeModal(false);
         setIsPlaying(true);
         setIsPaused(false);
     };
@@ -174,7 +203,13 @@ const WatchMoviePage = () => {
 
     const handleTimeUpdate = () => {
         if (videoRef.current) {
-            setCurrentTime(videoRef.current.currentTime);
+            const time = videoRef.current.currentTime;
+            setCurrentTime(time);
+            // Save progress every 5 seconds
+            if (Math.floor(time) % 5 === 0 && time > 0) {
+                const storageKey = `watch_progress_${movieSlug}_${selectedServer}_${selectedEpisode}`;
+                localStorage.setItem(storageKey, time.toString());
+            }
         }
     };
 
@@ -431,6 +466,10 @@ const WatchMoviePage = () => {
                                     onTimeUpdate={handleTimeUpdate}
                                     onLoadedMetadata={handleLoadedMetadata}
                                     onClick={handleVideoClick}
+                                    onEnded={() => {
+                                        const storageKey = `watch_progress_${movieSlug}_${selectedServer}_${selectedEpisode}`;
+                                        localStorage.removeItem(storageKey);
+                                    }}
                                 >
                                     <source 
                                         src={movieData.episodes[selectedEpisode - 1]?.link_m3u8} 
@@ -695,6 +734,26 @@ const WatchMoviePage = () => {
             </div>
 
             <BackToTop />
+
+            {/* Resume Watch Modal */}
+            {showResumeModal && (
+                <div className="resume-modal-overlay">
+                    <div className="resume-modal">
+                        <h3 className="resume-modal-title">THÔNG BÁO!</h3>
+                        <p className="resume-modal-message">
+                            Bạn đã dừng lại ở <strong>{formatTime(savedTime)}</strong>
+                        </p>
+                        <div className="resume-modal-actions">
+                            <button className="resume-btn-continue" onClick={handleResumeWatch}>
+                                ▶ Tiếp tục xem
+                            </button>
+                            <button className="resume-btn-restart" onClick={handleRestartWatch}>
+                                ↺ Xem lại từ đầu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

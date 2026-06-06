@@ -6,17 +6,9 @@ const Footer = () => {
         <footer>
             <div className="container">
                 <div className="footer-elements">
-                    <div className="footer-icon">
-                        {/* Using a placeholder or failing gracefully if image missing */}
-                        <img src="https://gogophim.com/images/footer-icon.svg" alt="footer" width="500" height="700" onError={(e) => e.target.style.display = 'none'} />
-                    </div>
-
                     <div className="side-left">
                         <div className="true-msg">
                             <div className="line-center">
-                                <div className="inc-icon icon-20">
-                                    <img src="https://gogophim.com/images/vn_flag.svg" alt="Vietnam" width="30" height="30" onError={(e) => e.target.style.display = 'none'} />
-                                </div>
                                 <span>Hoàng Sa & Trường Sa là của Việt Nam!</span>
                             </div>
                         </div>
