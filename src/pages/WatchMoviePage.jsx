@@ -535,7 +535,13 @@ const WatchMoviePage = () => {
                                                 <span className="skip-text">10</span>
                                             </button>
                                             
-                                            <button className="control-btn">
+                                            <button className="control-btn" onClick={() => {
+                                                const nextEp = selectedEpisode + 1;
+                                                if (nextEp <= movieData.episodes.length) {
+                                                    handleEpisodeSelect(nextEp);
+                                                    setTimeout(() => handlePlayVideo(), 100);
+                                                }
+                                            }}>
                                                 <SkipForward className="skip-icon" size={20} />
                                             </button>
                                             
