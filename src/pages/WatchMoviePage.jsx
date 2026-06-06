@@ -29,9 +29,7 @@ const WatchMoviePage = () => {
     const [isMuted, setIsMuted] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(true);
-    const [isDragging, setIsDragging] = useState(false);
-    const [isVolumeDragging, setIsVolumeDragging] = useState(false);
-    const videoRef = React.createRef();
+    const videoRef = React.useRef(null);
 
     useEffect(() => {
         const loadMovie = async () => {
@@ -85,27 +83,6 @@ const WatchMoviePage = () => {
             setLoading(false);
         }
     }, [movieSlug]);
-
-    // Add global mouse event listeners for volume dragging
-    useEffect(() => {
-        const handleGlobalMouseMove = (e) => {
-            handleVolumeMouseMove(e);
-        };
-
-        const handleGlobalMouseUp = () => {
-            handleVolumeMouseUp();
-        };
-
-        if (isVolumeDragging) {
-            document.addEventListener('mousemove', handleGlobalMouseMove);
-            document.addEventListener('mouseup', handleGlobalMouseUp);
-        }
-
-        return () => {
-            document.removeEventListener('mousemove', handleGlobalMouseMove);
-            document.removeEventListener('mouseup', handleGlobalMouseUp);
-        };
-    }, [isVolumeDragging]);
 
     // Keyboard shortcuts
     useEffect(() => {
@@ -217,9 +194,7 @@ const WatchMoviePage = () => {
     };
 
     const handleVolumeChange = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        const newVolume = Math.max(0, Math.min(1, percent));
+        const newVolume = parseFloat(e.target.value);
         setVolume(newVolume);
         setIsMuted(newVolume === 0);
         if (videoRef.current) {
@@ -227,27 +202,12 @@ const WatchMoviePage = () => {
         }
     };
 
-    const handleVolumeMouseDown = (e) => {
-        e.preventDefault();
-        setIsVolumeDragging(true);
-        handleVolumeChange(e);
-    };
-
-    const handleVolumeMouseMove = (e) => {
-        if (isVolumeDragging) {
-            handleVolumeChange(e);
-        }
-    };
-
-    const handleVolumeMouseUp = () => {
-        setIsVolumeDragging(false);
-    };
-
     const toggleMute = () => {
         if (videoRef.current) {
             if (isMuted) {
-                videoRef.current.volume = volume;
+                videoRef.current.volume = volume || 1;
                 setIsMuted(false);
+                if (volume === 0) setVolume(1);
             } else {
                 videoRef.current.volume = 0;
                 setIsMuted(true);
@@ -293,9 +253,13 @@ const WatchMoviePage = () => {
     };
 
     const formatTime = (seconds) => {
-        const minutes = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = Math.floor(seconds % 60);
+        if (h > 0) {
+            return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     };
 
     const handleMouseMove = () => {
@@ -506,16 +470,16 @@ const WatchMoviePage = () => {
                                                 <button className="control-btn volume-btn" onClick={toggleMute}>
                                                     {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
                                                 </button>
-                                                <div 
-                                                    className="volume-slider" 
-                                                    onMouseDown={handleVolumeMouseDown}
-                                                    onClick={handleVolumeChange}
-                                                >
-                                                    <div 
-                                                        className="volume-level" 
-                                                        style={{ width: `${isMuted ? 0 : volume * 100}%` }}
-                                                    ></div>
-                                                </div>
+                                                <input
+                                                    type="range"
+                                                    className="volume-slider"
+                                                    min="0"
+                                                    max="1"
+                                                    step="0.01"
+                                                    value={isMuted ? 0 : volume}
+                                                    onChange={handleVolumeChange}
+                                                    style={{ '--volume-pct': (isMuted ? 0 : volume) * 100 }}
+                                                />
                                             </div>
                                             
                                             <span className="time-display">
