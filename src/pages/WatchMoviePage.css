@@ -900,6 +900,8 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
 
 .control-btn:hover {
@@ -1254,6 +1256,13 @@
         justify-content: center;
         backdrop-filter: blur(4px);
         border: 2px solid rgba(255, 255, 255, 0.5) !important;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+    }
+
+    .center-skip-btn {
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
     }
 
     .center-skip-btn {
