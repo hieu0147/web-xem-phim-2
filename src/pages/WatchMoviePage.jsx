@@ -337,9 +337,13 @@ const WatchMoviePage = () => {
     };
 
     const handleLanguageChange = (language) => {
+        // Clear saved progress for current episode before switching server
+        const currentKey = `watch_progress_${movieSlug}_${selectedServer}_${selectedEpisode}`;
+        localStorage.removeItem(currentKey);
+
         setSelectedLanguage(language);
-        setSelectedEpisode(1); // Reset to first episode when changing language
-        setIsPlaying(false); // Stop playing when changing language
+        setSelectedEpisode(1);
+        setIsPlaying(false);
         
         // Scroll to video section when changing language
         setTimeout(() => {
@@ -355,8 +359,12 @@ const WatchMoviePage = () => {
     };
 
     const handleEpisodeSelect = (episodeNumber) => {
+        // Clear saved progress for current episode before switching
+        const currentKey = `watch_progress_${movieSlug}_${selectedServer}_${selectedEpisode}`;
+        localStorage.removeItem(currentKey);
+
         setSelectedEpisode(episodeNumber);
-        setIsPlaying(false); // Stop playing when changing episode
+        setIsPlaying(false);
         
         // Scroll to video section when changing episode
         setTimeout(() => {
@@ -365,6 +373,12 @@ const WatchMoviePage = () => {
                 videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }, 100);
+    };
+
+    // Play without resume check (used when switching episodes from controls)
+    const playDirectly = () => {
+        setIsPlaying(true);
+        setIsPaused(false);
     };
 
     const handleCommentSubmit = (e) => {
@@ -482,6 +496,21 @@ const WatchMoviePage = () => {
                                     Your browser does not support video tag.
                                 </video>
                                 
+                                {/* Center Controls (mobile only) */}
+                                <div className={`center-controls ${showControls ? 'visible' : 'hidden'}`}>
+                                    <button className="control-btn center-skip-btn" onClick={skipBackward}>
+                                        <RotateCcw size={32} />
+                                        <span className="center-skip-text">10</span>
+                                    </button>
+                                    <button className="control-btn center-play-btn" onClick={togglePlayPause}>
+                                        {isPaused ? <Play size={36} fill="currentColor" /> : <Pause size={36} />}
+                                    </button>
+                                    <button className="control-btn center-skip-btn" onClick={skipForward}>
+                                        <RotateCw size={32} />
+                                        <span className="center-skip-text">10</span>
+                                    </button>
+                                </div>
+
                                 {/* Custom Video Controls Overlay */}
                                 <div 
                                     className={`video-controls ${showControls ? 'visible' : 'hidden'}`}
@@ -542,7 +571,7 @@ const WatchMoviePage = () => {
                                                 const nextEp = selectedEpisode + 1;
                                                 if (nextEp <= movieData.episodes.length) {
                                                     handleEpisodeSelect(nextEp);
-                                                    setTimeout(() => handlePlayVideo(), 100);
+                                                    setTimeout(() => playDirectly(), 100);
                                                 }
                                             }}>
                                                 <SkipForward className="skip-icon" size={20} />

@@ -1213,3 +1213,76 @@
     color: #fff;
     border-color: rgba(255, 255, 255, 0.4);
 }
+
+/* Center controls overlay - chỉ hiện trên mobile */
+.center-controls {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .center-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        pointer-events: auto;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .center-controls.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .center-controls.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .center-play-btn {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+        border: 2px solid rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .center-skip-btn {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+    }
+
+    .center-skip-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10px;
+        font-weight: 700;
+        color: white;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    /* Ẩn play/pause và skip cũ trong thanh controls dưới */
+    .play-pause-btn,
+    .controls-right .skip-btn {
+        display: none !important;
+    }
+}
