@@ -56,15 +56,23 @@ const WatchMoviePage = () => {
                             ep.server_name.toLowerCase().includes('thuyết minh')
                         );
                         
+                        let server = 0;
                         if (vietsubServer !== -1) {
+                            server = vietsubServer;
                             setSelectedServer(vietsubServer);
                             setSelectedLanguage('vietsub');
                         } else if (thuyetminhServer !== -1) {
+                            server = thuyetminhServer;
                             setSelectedServer(thuyetminhServer);
                             setSelectedLanguage('thuyet-minh');
                         } else {
-                            setSelectedServer(0); // First server as fallback
+                            setSelectedServer(0);
                         }
+
+                        // Restore last watched episode
+                        const savedEpisode = parseInt(localStorage.getItem(`last_episode_${movieSlug}_${server}`) || '1');
+                        const maxEp = data.episodes[server]?.server_data?.length || 1;
+                        setSelectedEpisode(Math.min(savedEpisode, maxEp));
                     }
                 } else {
                     // console.error('No movie data received');
@@ -362,6 +370,9 @@ const WatchMoviePage = () => {
         // Clear saved progress for current episode before switching
         const currentKey = `watch_progress_${movieSlug}_${selectedServer}_${selectedEpisode}`;
         localStorage.removeItem(currentKey);
+
+        // Save last watched episode
+        localStorage.setItem(`last_episode_${movieSlug}_${selectedServer}`, episodeNumber.toString());
 
         setSelectedEpisode(episodeNumber);
         setIsPlaying(false);
