@@ -86,6 +86,15 @@
     background: #000;
     border-radius: 12px;
     overflow: hidden;
+    cursor: default;
+}
+
+.video-player.controls-hidden {
+    cursor: none;
+}
+
+.video-player.controls-hidden * {
+    cursor: none;
 }
 
 /* Fullscreen styles for mobile */

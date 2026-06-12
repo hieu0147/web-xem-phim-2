@@ -468,7 +468,7 @@ const WatchMoviePage = () => {
 
                 {/* Video Player Section */}
                 <div className="video-section">
-                    <div className="video-player" onMouseMove={handleMouseMove}>
+                    <div className={`video-player${!showControls && isPlaying ? ' controls-hidden' : ''}`} onMouseMove={handleMouseMove}>
                         {isPlaying && movieData.episodes.length > 0 ? (
                             <>
                                 <video
